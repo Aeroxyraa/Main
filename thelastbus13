@@ -29,7 +29,7 @@ mainFrame.Position = UDim2.new(0.35, 0, 0.2, 0)
 mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 mainFrame.BorderSizePixel = 0
 mainFrame.Active = true
-mainFrame.Draggable = true 
+mainFrame.Draggable = true
 mainFrame.Parent = screenGui
 
 local mainCorner = Instance.new("UICorner")
@@ -40,7 +40,7 @@ local titleBar = Instance.new("TextLabel")
 titleBar.Name = "TitleBar"
 titleBar.Size = UDim2.new(1, 0, 0, 35)
 titleBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-titleBar.Text = "  THE LAST BUS 13"
+titleBar.Text = " THE LAST BUS 13"
 titleBar.TextColor3 = Color3.fromRGB(255, 255, 255)
 titleBar.TextSize = 14
 titleBar.Font = Enum.Font.SourceSansBold
@@ -82,7 +82,7 @@ maxButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 maxButton.TextSize = 14
 maxButton.Font = Enum.Font.SourceSansBold
 maxButton.BorderSizePixel = 0
-maxButton.Visible = false 
+maxButton.Visible = false
 maxButton.Parent = mainFrame
 
 local scroll = Instance.new("ScrollingFrame")
@@ -105,14 +105,14 @@ list.Parent = scroll
 closeButton.MouseButton1Click:Connect(function() screenGui:Destroy() end)
 minButton.MouseButton1Click:Connect(function()
     mainFrame.Size = UDim2.new(0, 380, 0, 35)
-    scroll.Visible = false 
-    minButton.Visible = false 
+    scroll.Visible = false
+    minButton.Visible = false
     maxButton.Visible = true
 end)
 maxButton.MouseButton1Click:Connect(function()
     mainFrame.Size = UDim2.new(0, 380, 0, 420)
-    scroll.Visible = true 
-    minButton.Visible = true 
+    scroll.Visible = true
+    minButton.Visible = true
     maxButton.Visible = false
 end)
 
@@ -156,10 +156,10 @@ local runAnimTrack = nil
 local function setupRunAnimation(hum)
     if runAnimTrack then runAnimTrack:Stop() end
     local animator = hum:FindFirstChild("Animator") or Instance.new("Animator", hum)
-    
+   
     local anim = Instance.new("Animation")
     anim.AnimationId = "rbxassetid://83307380732694"
-    
+   
     runAnimTrack = animator:LoadAnimation(anim)
     runAnimTrack.Priority = Enum.AnimationPriority.Action4
     runAnimTrack.Looped = true
@@ -172,9 +172,9 @@ local function toggleAutoRun(enabled)
             if not char then return end
             local hum = char:FindFirstChild("Humanoid")
             if not hum then return end
-            
+           
             hum.WalkSpeed = 24
-            
+           
             if hum.MoveDirection.Magnitude > 0.1 then
                 if not runAnimTrack or not runAnimTrack.IsPlaying then
                     setupRunAnimation(hum)
@@ -187,15 +187,15 @@ local function toggleAutoRun(enabled)
             end
         end)
     else
-        if autoSprintConn then 
-            autoSprintConn:Disconnect() 
-            autoSprintConn = nil 
+        if autoSprintConn then
+            autoSprintConn:Disconnect()
+            autoSprintConn = nil
         end
-        if runAnimTrack then 
-            runAnimTrack:Stop() 
-            runAnimTrack = nil 
+        if runAnimTrack then
+            runAnimTrack:Stop()
+            runAnimTrack = nil
         end
-        
+       
         local char = localPlayer.Character
         if char then
             local hum = char:FindFirstChild("Humanoid")
@@ -222,7 +222,6 @@ end
 userInputService.InputBegan:Connect(function(input, gp)
     if gp then return end
     if input.KeyCode == Enum.KeyCode.R then
-        print("R Key Detected!")
         local newState = not toggles.AutoRun
         toggles.AutoRun = newState
         toggleAutoRun(newState)
@@ -254,17 +253,14 @@ local function applyGhostESP(ghost)
     if not toggles.Ghost then return end
     local color = ghostColors[ghost.Name]
     if not color or activeGhostESPs[ghost] then return end
-
     local orig = ghost:FindFirstChild("GhostESP")
     if orig then orig.Enabled = false end
-
     local hl = Instance.new("Highlight")
     hl.Name = "BodyChams"
     hl.FillColor = color
     hl.FillTransparency = 0.5
     hl.OutlineColor = Color3.new(1, 1, 1)
     hl.Parent = ghost
-
     local ghostRoot = ghost:FindFirstChild("HumanoidRootPart") or ghost:FindFirstChildWhichIsA("BasePart")
     local label = nil
     if ghostRoot then
@@ -275,7 +271,6 @@ local function applyGhostESP(ghost)
         bboard.AlwaysOnTop = true
         bboard.Adornee = ghostRoot
         bboard.Parent = ghost
-
         label = Instance.new("TextLabel")
         label.Size = UDim2.new(1, 0, 1, 0)
         label.BackgroundTransparency = 1
@@ -328,7 +323,6 @@ local function addItemESP(object, displayName, color)
     if not object:IsA("BasePart") and not object:IsA("Model") then return end
     local part = object:IsA("Model") and (object.PrimaryPart or object:FindFirstChildWhichIsA("BasePart")) or object
     if not part or activeItemESPs[object] then return end
-
     local billboard = Instance.new("BillboardGui")
     billboard.Name = "ItemESP_" .. displayName
     billboard.AlwaysOnTop = true
@@ -336,7 +330,6 @@ local function addItemESP(object, displayName, color)
     billboard.StudsOffset = Vector3.new(0, 1.5, 0)
     billboard.Adornee = part
     billboard.Parent = part
-
     local label = Instance.new("TextLabel")
     label.Size = UDim2.new(1, 0, 1, 0)
     label.BackgroundTransparency = 1
@@ -347,7 +340,6 @@ local function addItemESP(object, displayName, color)
     label.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
     label.Text = displayName
     label.Parent = billboard
-
     activeItemESPs[object] = {Gui = billboard, Label = label, Part = part, NameTag = displayName, MainColor = color}
 end
 
@@ -361,15 +353,15 @@ end
 local function refreshItemESPState(toggleName, folderName, displayName, color)
     local targetFolder = workspace:FindFirstChild(folderName)
     if not toggles[toggleName] then
-        for obj, data in pairs(activeItemESPs) do 
-            if data.NameTag == displayName then removeItemESP(obj) end 
+        for obj, data in pairs(activeItemESPs) do
+            if data.NameTag == displayName then removeItemESP(obj) end
         end
         return
     end
     if targetFolder then
-        for _, child in ipairs(targetFolder:GetChildren()) do 
+        for _, child in ipairs(targetFolder:GetChildren()) do
             if child.Name:lower():find(displayName:lower()) or folderName:lower():find("spawn") or folderName:lower():find("lamps") then
-                addItemESP(child, displayName, color) 
+                addItemESP(child, displayName, color)
             end
         end
     end
@@ -409,7 +401,6 @@ runService.RenderStepped:Connect(function()
     local myChar = localPlayer.Character
     local myRoot = myChar and myChar:FindFirstChild("HumanoidRootPart")
     if not myRoot then return end
-
     if toggles.Ghost then
         for ghost, data in pairs(activeGhostESPs) do
             if data.Root and ghost.Parent then
@@ -418,7 +409,6 @@ runService.RenderStepped:Connect(function()
             else removeGhostESP(ghost) end
         end
     end
-
     for object, data in pairs(activeItemESPs) do
         if data.Part and data.Part.Parent and object.Parent then
             local distance = (myRoot.Position - data.Part.Position).Magnitude / 2.8
@@ -451,7 +441,7 @@ local function createRowToggle(name, toggleKey, folderTarget, dispName, color, o
 
     local label = Instance.new("TextLabel")
     label.Size = UDim2.new(0, 200, 1, 0)
-    label.Text = "  " .. name
+    label.Text = " " .. name
     label.TextColor3 = Color3.fromRGB(220, 220, 220)
     label.TextSize = 13
     label.Font = Enum.Font.SourceSans
@@ -469,7 +459,7 @@ local function createRowToggle(name, toggleKey, folderTarget, dispName, color, o
     btn.Font = Enum.Font.SourceSansBold
     btn.BorderSizePixel = 0
     btn.Parent = frame
-    
+   
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, 4)
     corner.Parent = btn
@@ -478,7 +468,7 @@ local function createRowToggle(name, toggleKey, folderTarget, dispName, color, o
         toggles[toggleKey] = not toggles[toggleKey]
         btn.BackgroundColor3 = toggles[toggleKey] and Color3.fromRGB(40, 140, 40) or Color3.fromRGB(150, 40, 40)
         btn.Text = toggles[toggleKey] and "ON" or "OFF"
-        
+       
         if toggleKey == "AutoRun" then
             toggleAutoRun(toggles[toggleKey])
         elseif toggleKey == "Ghost" then
@@ -488,10 +478,10 @@ local function createRowToggle(name, toggleKey, folderTarget, dispName, color, o
                 if enemiesFolder then for _, ghost in ipairs(enemiesFolder:GetChildren()) do removeGhostESP(ghost) end end
             end
         elseif toggleKey == "Player" then
-            if toggles.Player then 
+            if toggles.Player then
                 for _, p in ipairs(players:GetPlayers()) do applyPlayerESP(p) end
-            else 
-                for _, p in ipairs(players:GetPlayers()) do removePlayerESP(p) end 
+            else
+                for _, p in ipairs(players:GetPlayers()) do removePlayerESP(p) end
             end
         elseif toggleKey ~= "InstantPrompt" and toggleKey ~= "NoClip" then
             refreshItemESPState(toggleKey, folderTarget, dispName, color)
@@ -524,7 +514,7 @@ for index, data in ipairs(teleports) do
     btn.BorderSizePixel = 0
     btn.LayoutOrder = 30 + index
     btn.Parent = scroll
-    
+   
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, 4)
     corner.Parent = btn
@@ -534,9 +524,6 @@ for index, data in ipairs(teleports) do
         local root = char and char:FindFirstChild("HumanoidRootPart")
         if root then
             root.CFrame = data.cframe
-            print("[The Last Bus 13] Sukses teleport ke " .. data.name)
         end
     end)
 end
-
-print("✅ The Last Bus 13 + Auto Run [R] Berhasil Dimuat!")
